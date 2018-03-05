@@ -1,0 +1,210 @@
+<html>
+<head>
+   <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="landingpage.css">
+</head>
+<body>
+<div class="container mainContainer">
+<div class="primary-holder">
+        <main id="main" role="main" class="content" ms.cmpgrp="content" data-bi-name="content" lang="en-us" dir="ltr">
+
+
+            <!--- Start Content ---->
+<h1>AKS - Kubernetes Guide de demarrage</h1>
+
+<h2>Description</h2>
+Cette page est un guide de demarrage rapide sur Azure AKS - Azure Container Service et ne remplace pas la documentation Azure: 
+<a href="https://docs.microsoft.com/fr-fr/azure/aks/">Azure ACS - Documentation</a>
+<h2>Les Outils</h2>
+
+
+<h3>Les outils dont vous allez avoir besoin</h3>
+
+<h4>Azure CLI</h4>
+Azure CLI est une interface de commandes qui peut aussi bien etre utilisee sur Windows, Linux que Mac et qui permet d'interagir avec Microsoft Azure.
+
+<h5>Installation sur poste client</h5>
+Vous trouverez la procedure complete d'installation au lien suivant: 
+<a href="https://docs.microsoft.com/fr-fr/cli/azure/install-azure-cli?view=azure-cli-latest">Azure CLI Documentation</a>
+<br/>
+Lien direct vers procedure d'installation sur Windows:
+<a href="https://docs.microsoft.com/fr-fr/cli/azure/install-azure-cli-windows?view=azure-cli-latest">Installation Windows</a>
+
+<h5>Utilisation de la plateforme Azure</h5>
+La plateforme Azure integre Azure CLI vous pouvez y acceder a partir de l'icone entoure en rouge sur l'impression d'ecran qui se trouve en haut a droite sur la plateforme.
+<img src="medias/icone-azure-cli.png" width="500px">
+
+<h4>Connexion & Configuration de Azure CLI</h4>
+
+Connection a votre compte Microsoft Azure. (Pas necessaire si vous utilisez Azure CLI sur la plateforme directement)
+<pre>
+    az login
+</pre>
+
+Recuperation de la liste des souscriptions rattachees a votre compte.
+<pre>
+    az account list
+</pre>
+
+Ici il faut verifier que la souscription par defaut rattachee a votre compte est bien celle que vous souhaitez utiliser pour le deploiement de votre cluster Kubernetes.
+<i>"isDefault": true,</i>
+Si ce n'est pas le cas utilisez la commande ci-dessous pour definir votre votre souscription par defaut.
+<pre>
+    az account set --subscription "subscriptionid"
+</pre>
+
+
+<h4>Kubectl</h4>
+
+Kubectl est l'interface de commandes vous permettant d'interagir avec votre cluster Kubernetes au travers de son API.
+Vous pouvez obtenir plus de details sur kubectl a partir de la Documentation.
+
+<h5>Installation avec Azure Cli</h5>
+<pre>
+    az aks install-cli
+</pre>
+
+<h5>Installation de Kubectl depuis le site de Kubernetes</h5>
+
+Vous pouvez trouver la procedure a partir du lien: <a hre="https://kubernetes.io/docs/tasks/tools/install-kubectl/">Kubernetes - Kubectl</a>
+
+<h5>Creation Cle SSH</h5>
+
+Putty est un outil simple pour vous connecter a vos ressources sur Azure en SSH. PuttyGen va vous permettre de generer votre cle necessaire a la creation de votre cluster Kubernetes.
+Voici le lien vers la <a href="https://docs.microsoft.com/fr-fr/azure/virtual-machines/linux/ssh-from-windows">documentation</a> -> <i>Creer une cle privee pour putty</i>.
+
+
+<h2>Creation du Cluster</h2>
+Information importante le Resource Group doit etre vide pour pouvoir creer votre cluster Kubernetes.
+<h3>Creation depuis la plateforme - Interface Graphique</h3>
+
+<h4>Creation du service principal</h4>
+
+https://docs.microsoft.com/fr-fr/azure/azure-resource-manager/resource-group-create-service-principal-portal
+
+<h3>Creation depuis Azure CLI - Lignes de commandes</h3>
+
+<h4>Creation du service principal</h4>
+
+Connexion a Azure 
+
+<pre>az login</pre>
+
+Verification de la souscription par defaut
+
+Creation du Resource Group:
+
+<pre>az group create --name guide-aks-cli --location westeurope</pre>
+
+<pre>az aks create --resource-group guide-aks-cli --name myAKSCluster --node-count 2 --generate-ssh-keys</pre>
+
+Pour plus d'options sur la commande de creation du cluster: <a hre="https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az_aks_create">Az Create</a>
+
+
+Suite de la procedure de creation de votre cluster Kubernetes: https://docs.microsoft.com/fr-fr/azure/aks/kubernetes-walkthrough
+
+<h3>Connexion au cluster</h3>
+
+<h4>Azure CLI - Kubectl</h4>
+
+Connexion au cluster grace Azure CLI
+<pre>
+>az aks get-credentials --resource-group=guide-aks-cli --name=myAKSCluster
+</pre>
+Recuperation de la liste des Pods pour verifier la connexion. Pas de pods pour le moment.
+<pre>
+>kubectl get pods
+No resources found.
+</pre>
+
+<h4>Azure CLI - Kubernetes Interface Web</h4>
+
+<pre>
+>az aks browse --name myAKSCluster --resource-group guide-aks-cli
+Merged "myAKSCluster" as current context in C:\Users\ADMINI~1\AppData\Local\Temp\tmp5q0i3vpx
+Proxy running on http://127.0.0.1:8001/
+Press CTRL+C to close the tunnel...
+Forwarding from 127.0.0.1:8001 -> 9090
+Handling connection for 8001
+</pre>
+<img src="medias/kubernetes-dashboard.png" width=500px>
+
+<h3>Operations sur le cluster</h3>
+
+<h4>Mise a jour du cluster</h4>
+
+<h5>Connaitre la version de Kubernetes</h5>
+
+<p>
+Sur la plateforme:
+<img src="medias/version-aks-plateforme.png">
+</p>
+
+<p>
+Avec Kubectl:
+<pre>
+>kubectl version
+</pre>
+<img src="medias/Inkedversion-aks-kubectl-LI.jpg">
+</p>
+
+<p>
+Azure CLI - Commande:
+<pre>
+>az aks show --name myAKSCluster --resource-group guide-aks-cli --output table
+</pre>
+<img src="medias/azurecli-aks-version.png">
+</p>
+
+<h4>Deploiement Rapide de test</h4>
+
+Lancement du container Nginx: <a href="https://hub.docker.com/_/nginx/">https://hub.docker.com/_/nginx/</a> sur le cluster.
+<pre>
+>kubectl run --image=nginx nginx-app --port=80
+</pre>
+
+Recuperation de la liste des deploiements
+<pre>
+>kubectl get deployments
+
+NAME        DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+nginx-app   1         1         1            1           1m
+</pre>
+
+Creation du service pour le deploiement <i>nginx-app</i>, exposition du port 80.
+<pre>
+>kubectl expose deployment nginx-app --type=LoadBalancer
+service "nginx-app" exposed
+</pre>
+
+Recuperation de la liste des services et de l'IP externe
+<pre>
+> kubectl get services nginx-app
+NAME        TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)        AGE
+nginx-app   LoadBalancer   10.0.75.83   <b>13.81.6.228</b>   80:30614/TCP   4m
+</pre>
+
+Suppression du Service et du Deploiement
+<pre>
+>kubectl delete service nginx-app
+service "nginx-app" deleted
+</pre>
+<pre>
+>kubectl delete deployment nginx-app
+deployment "nginx-app" deleted
+</pre>
+Verification que le service est bien supprime.
+<pre>
+>kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.0.0.1     <none>        443/TCP   35m
+</pre>
+<!--- End Content ---->
+
+
+</main>
+</div>
+</div>
+
+</body>
+</html>

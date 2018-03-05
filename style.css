@@ -1,0 +1,458 @@
+@charset "UTF-8";
+/* Color Table */
+/* From C+E brand guideline */
+/* Breakpoints */
+/* Misc */
+/* Color Table */
+/* TODO: Could use postcss-color-func to invert the color */
+/*$callout-invert: invert($callout);*/
+/* TODO: Could use postcss-color-func to invert the color */
+/* Text */
+/* TODO: Could use postcss-color-func to invert the color */
+/* Code */
+/* Links */
+/* Controls */
+/* Typography */
+/* Notes
+
+max width is 1600.
+has 5% margin
+767-768 is break between mobile and tablet
+1199-1200 is break to bring down page .pageActions
+
+1199.99999px and 767.99999px is needed because of a rounding error(?) in ie 11 and FF
+
+flexbox styles include just about every past version as well.
+There is no expectation that we need to be this thorough with flexbox in the future. 
+
+*/
+@media print {
+  body > :not(.mainContainer),
+  body > .mainContainer > :not(.primary-holder),
+  .feedback-section,
+  #comments-container {
+    display: none !important;
+  }
+}
+
+/**** Main site blocks ****/
+html {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+body {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: #fff;
+  height: auto;
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+body > .mainContainer > .sidebar,
+body > .mainContainer > .pageActions {
+  display: none;
+}
+
+html.hasSidebar body > .mainContainer > .sidebar,
+html.hasPageActions body > .mainContainer > .pageActions {
+  display: block;
+}
+
+body > .header-holder {
+  order: 1;
+}
+
+body > .mainContainer {
+  order: 2;
+}
+
+body > .footerContainer {
+  order: 3;
+}
+
+body > .mainContainer {
+  -webkit-box-flex: 1 1 auto;
+  -moz-box-flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-content: flex-start;
+  -ms-flex-line-pack: start;
+  align-content: flex-start;
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+
+body > .mainContainer > .primary-holder {
+  -webkit-box-flex: 1 1 100%;
+  -moz-box-flex: 1 1 100%;
+  -webkit-flex: 1 1 100%;
+  -ms-flex: 1 1 100%;
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+
+html.hasBreadcrumb body > .mainContainer,
+html.hasPageActions body > .mainContainer {
+  margin-top: 0;
+}
+
+@media (max-width: 767.99999px) {
+  body > .container {
+    padding: 0 16px;
+  }
+  body > .mainContainer > .breadcrumbs {
+    order: 1;
+  }
+  body > .mainContainer > .pageActions {
+    order: 2;
+  }
+  body > .mainContainer > .dropdown-container,
+  body > .mainContainer > .sidebar {
+    order: 3;
+  }
+  body > .mainContainer > .primary-holder {
+    order: 4;
+  }
+  body > .mainContainer > .breadcrumbs,
+  body > .mainContainer > .sidebar,
+  body > .mainContainer > .pageActions {
+    -webkit-box-flex: 1 1 100%;
+    -moz-box-flex: 1 1 100%;
+    -webkit-flex: 1 1 100%;
+    -ms-flex: 1 1 100%;
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  body > .mainContainer {
+    margin-top: 41px;
+    /*this is just eyeballed to try and match old design. Should be set better/differently.?*/
+  }
+  #sidebar {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  body > .container > .headerPlaceholder,
+  body > .container > .footer-layout,
+  body > .container > .breadcrumbs {
+    margin: 0 auto;
+  }
+  body > .mainContainer {
+    margin-top: 25px;
+    /*this is just eyeballed to try and match old design. Should be set better/differently. 1.5rem?*/
+  }
+  body > .mainContainer > .breadcrumbs {
+    -webkit-box-flex: 1 1 100%;
+    -moz-box-flex: 1 1 100%;
+    -webkit-flex: 1 1 100%;
+    -ms-flex: 1 1 100%;
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  #sidebar {
+    display: block;
+    min-height: 1px;
+    /*hack to fix float and delayed rendering in Chrome */
+  }
+  #sidebarContent {
+    position: fixed;
+    width: 100%;
+    max-width: inherit;
+    display: flex;
+    flex-direction: column;
+    padding-top: 24px;
+    z-index: 1;
+  }
+  #sidebarContent > .filterHolder {
+    flex-shrink: 0;
+  }
+  #sidbarContent > .toc {
+    flex-grow: 1;
+  }
+  #sidebarContent > .pdfDownloadHolder {
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1083.99999px) {
+  body > .container {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199.99999px) {
+  body > .mainContainer > .breadcrumbs {
+    order: 1;
+  }
+  body > .mainContainer > .pageActions {
+    order: 2;
+  }
+  body > .mainContainer > .sidebar {
+    order: 3;
+  }
+  body > .mainContainer > .primary-holder {
+    order: 4;
+  }
+  body > .mainContainer > .primary-holder {
+    margin: 0;
+  }
+  html.hasSidebar body > .mainContainer > .primary-holder {
+    margin: 0 0 0 24px;
+    max-width: calc(100% - 244px);
+    /* 100% - 24 - 220 */
+    -ms-flex-preferred-size: calc(100% - 244px);
+    -moz-flex-basis: calc(100% - 244px);
+    -webkit-flex-basis: calc(100% - 244px);
+    flex-basis: calc(100% - 244px);
+  }
+  html.hasSidebar body[dir="rtl"] .primary-holder {
+    margin: 0 24px 0 0;
+  }
+  html.hasBreadcrumb body > .mainContainer > .primary-holder,
+  html.hasBreadcrumb body > .mainContainer > .sidebar,
+  html.hasPageActions body > .mainContainer > .primary-holder,
+  html.hasPageActions body > .mainContainer > .sidebar {
+    margin-top: 8px;
+  }
+  body > .mainContainer > .pageActions {
+    -webkit-box-flex: 1 1 100%;
+    -moz-box-flex: 1 1 100%;
+    -webkit-flex: 1 1 100%;
+    -ms-flex: 1 1 100%;
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1499.99999px) {
+  body > .mainContainer > .sidebar {
+    -webkit-box-flex: 0 0 220px;
+    -moz-box-flex: 0 0 220px;
+    -webkit-flex: 0 0 220px;
+    -ms-flex: 0 0 220px;
+    flex: 0 0 220px;
+    max-width: 220px;
+  }
+}
+
+@media (min-width: 1084px) {
+  body > .container {
+    padding: 0 5%;
+  }
+}
+
+@media (min-width: 1200px) {
+  body > .mainContainer > .breadcrumbs {
+    order: 1;
+  }
+  body > .mainContainer > .sidebar {
+    order: 2;
+  }
+  body > .mainContainer > .primary-holder {
+    order: 3;
+  }
+  body > .mainContainer > .pageActions {
+    order: 4;
+  }
+  body > .mainContainer > .pageActions {
+    -webkit-box-flex: 0 0 230px;
+    -moz-box-flex: 0 0 230px;
+    -webkit-flex: 0 0 230px;
+    -ms-flex: 0 0 230px;
+    flex: 0 0 230px;
+    max-width: 230px;
+  }
+  html.hasSidebar body > .mainContainer > .primary-holder {
+    margin: 0 0 0 24px;
+  }
+  html.hasSidebar body[dir="rtl"] > .mainContainer > .primary-holder {
+    margin: 0 24px 0 0;
+  }
+  html.hasPageActions body > .mainContainer > .primary-holder {
+    margin: 0 24px 0 0;
+    max-width: calc(100% - 254px);
+    /* 100% - 24 - 230 */
+    -ms-flex-preferred-size: calc(100% - 254px);
+    -moz-flex-basis: calc(100% - 254px);
+    -webkit-flex-basis: calc(100% - 254px);
+    flex-basis: calc(100% - 254px);
+  }
+  html.hasPageActions body[dir="rtl"] > .mainContainer > .primary-holder {
+    margin: 0 0 0 24px;
+  }
+  html.hasSidebar.hasPageActions body > .mainContainer > .primary-holder {
+    margin: 0 24px;
+  }
+  body > .container > .headerPlaceholder,
+  body > .container > .footer-layout,
+  body > .container > .breadcrumbs {
+    max-width: 1600px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1499.99999px) {
+  html.hasSidebar body > .mainContainer > .primary-holder {
+    max-width: calc(100% - 244px);
+    /* 100% - 24 - 220 */
+    -ms-flex-preferred-size: calc(100% - 244px);
+    -moz-flex-basis: calc(100% - 244px);
+    -webkit-flex-basis: calc(100% - 244px);
+    flex-basis: calc(100% - 244px);
+  }
+  html.hasSidebar.hasPageActions body > .mainContainer > .primary-holder {
+    max-width: calc(100% - 498px);
+    /* 100% - 24 - 24 - 220 - 230 */
+    -ms-flex-preferred-size: calc(100% - 498px);
+    -moz-flex-basis: calc(100% - 498px);
+    -webkit-flex-basis: calc(100% - 498px);
+    flex-basis: calc(100% - 498px);
+  }
+}
+
+@media (min-width: 1500px) {
+  body > .mainContainer > .sidebar {
+    -webkit-box-flex: 0 0 260px;
+    -moz-box-flex: 0 0 260px;
+    -webkit-flex: 0 0 260px;
+    -ms-flex: 0 0 260px;
+    flex: 0 0 260px;
+    max-width: 260px;
+  }
+  html.hasSidebar body > .mainContainer > .primary-holder {
+    max-width: calc(100% - 284px);
+    /* 100% - 24 - 260 */
+    -ms-flex-preferred-size: calc(100% - 284px);
+    -moz-flex-basis: calc(100% - 284px);
+    -webkit-flex-basis: calc(100% - 284px);
+    flex-basis: calc(100% - 284px);
+  }
+  html.hasSidebar.hasPageActions body > .mainContainer > .primary-holder {
+    max-width: calc(100% - 538px);
+    /* 100% - 24 - 24 - 260 - 230 */
+    -ms-flex-preferred-size: calc(100% - 538px);
+    -moz-flex-basis: calc(100% - 538px);
+    -webkit-flex-basis: calc(100% - 538px);
+    flex-basis: calc(100% - 538px);
+  }
+}
+
+@media (min-width: 1795px) {
+  body > .mainContainer {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1600px;
+  }
+}
+
+/**** footer ****/
+body > .footerContainer {
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  background-color: #1a1a1a;
+  border-color: #e3e3e3;
+  margin-top: 24px;
+}
+
+#footer {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  padding: 48px 0 53px;
+}
+
+.theme_night #footer {
+  background-color: #1a1a1a;
+  border-color: #2e2e2e;
+}
+
+#footer .links {
+  font-size: 0.8125rem;
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+
+#footer .links > li {
+  display: inline-block;
+  margin-left: 0.2em;
+  margin-right: 0;
+}
+
+#footer .links > li:last-child {
+  margin-right: 0;
+}
+
+#footer .links > li:last-child:after {
+  content: none;
+}
+
+#footer .links > li:after {
+  margin-left: 8px;
+  content: "•";
+  color: #ababab;
+}
+
+body[dir='rtl'] #footer .links > li::after {
+  margin-right: 8px;
+}
+
+#footer .links a {
+  color: #3d88c0;
+}
+
+.theme_night #footer .links > li:after {
+  color: #6e6e6e;
+}
+
+@media only screen and (min-width: 768px) {
+  #footer .links {
+    margin-bottom: 16px;
+    margin-top: 0;
+    float: right;
+  }
+  body[dir='rtl'] #footer .links {
+    float: left;
+  }
+}
